@@ -1,3 +1,5 @@
+#Hello world 1.4.py
+
 import pygame
 
 pygame.init()
