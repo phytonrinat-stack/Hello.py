@@ -1,0 +1,95 @@
+import pygame
+import random
+pygame.init()
+windows=pygame.display.set_mode((720,1440))
+
+shrift=pygame.font.SysFont(None,100)
+z=0
+x_food=random.randint(5,700)
+y_food=random.randint(1,940)
+x=100
+y=100
+h=50
+g=50
+x_speed=0
+y_speed=-3
+speed=5
+clock=pygame.time.Clock()
+fps=60
+white=(255,255,255)
+red=(255,0,0)
+green=(0,255,0)
+blue=(0,145,255)
+black=(0,0,0)
+
+running=True
+while running:
+	for event in pygame.event.get():
+		if event.type==pygame.QUIT:
+			running=False
+			
+	windows.fill(white)
+	clock.tick(fps)
+	x=x+x_speed
+	y=y+y_speed
+	
+	pygame.draw.polygon(windows,red,[(180,1050),(270,1050),(270,1130),(180,1130)])
+	pygame.draw.polygon(windows,red,[(180,1220),(270,1220),(270,1300),(180,1300)])
+	pygame.draw.polygon(windows,red,[(100,1130),(180,1130),(180,1220),(100,1220)])
+	pygame.draw.polygon(windows,red,[(270,1130),(350,1130),(350,1220),(270,1220)])
+	
+	click=pygame.mouse.get_pos()
+	
+	if pygame.mouse.get_pressed()[0]:
+		if click[0]>180 and click[0]<270 and click[1]>1050 and click[1]<1130:
+			x_speed=0
+			y_speed=-3
+		if click[0]>180 and click[0]<270 and click[1]>1220 and click[1]<1300:
+			x_speed=0
+			y_speed=3
+		if click[0]>100 and click[0]<180 and click[1]>1130 and click[1]<1220:
+			x_speed=-3
+			y_speed=0
+		if click[0]>270 and click[0]<350 and click[1]>1130 and click[1]<1220:
+			x_speed=3
+			y_speed=0
+			
+	if x<0:
+		x=720
+	if x>720:
+		x=0
+	if y<0:
+		y=980
+	if y>980:
+		y=0
+		
+	if abs(x-x_food)<50 and abs(y-y_food)<50:
+		x_food=random.randint(5,700)
+		y_food=random.randint(5,940)
+		z=z+1
+		
+	if z>1:
+		srift=pygame.font.SysFont(None,250)
+		Srift=srift.render(("You Win"),True,(255,255,255))
+		windows.blit(Srift,(40,520))
+		white=(0,0,0)
+		red=(0,0,0)
+		green=(0,0,0)
+		blue=(0,0,0)
+		Srif=pygame.font.SysFont(None,150)
+		srif=Srif.render((str("Your score z")),True,(255,255,255))
+		windows.blit(srif,(40,720))
+	
+	
+	pygame.draw.rect(windows,green,(x,y,h,g))
+	pygame.draw.rect(windows,blue,(x_food,y_food,h,g))
+	
+	
+	Shrift=shrift.render((str(z)),True,(0,0,0))
+	windows.blit(Shrift,(50,50))
+	
+	pygame.draw.polygon(windows,black,([(0,1000),(730,1000),(730,1020),(0,1020)]))
+	
+		
+	pygame.display.flip()
+pygame.quit()
