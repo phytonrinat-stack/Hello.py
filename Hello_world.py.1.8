@@ -68,7 +68,7 @@ while running:
 		y_food=random.randint(5,940)
 		z=z+1
 		
-	if z>1:
+	if z>9:
 		srift=pygame.font.SysFont(None,250)
 		Srift=srift.render(("You Win"),True,(255,255,255))
 		windows.blit(Srift,(40,520))
@@ -77,7 +77,7 @@ while running:
 		green=(0,0,0)
 		blue=(0,0,0)
 		Srif=pygame.font.SysFont(None,150)
-		srif=Srif.render((str("Your score z")),True,(255,255,255))
+		srif=Srif.render((str(f"Your score {z}")),True,(255,255,255))
 		windows.blit(srif,(40,720))
 	
 	
