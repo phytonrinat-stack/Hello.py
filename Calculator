@@ -1,0 +1,33 @@
+def vur(reqem1,reqem2):
+	reqemlerin_hasili=reqem1*reqem2
+	print(f"Vurmanın Cavabı: {reqemlerin_hasili}")
+
+def böl(reqem1,reqem2):
+	reqemlerin_bölüsü=reqem1/reqem2
+	print(f"Bölmənin Cavabı: {reqemlerin_bölüsü}")
+
+def çıx(reqem1,reqem2):
+	reqemlerin_çıxısı=reqem1-reqem2
+	print(f"Çıxmanın Cavabı: {reqemlerin_çıxısı}")
+
+def topla(reqem1,reqem2):
+	reqemlerin_cemi=reqem1+reqem2
+	print(f"Toplamanın Cavabı: {reqemlerin_cemi}")
+
+x=input("1 ci reqemi yaz " )
+y=input("2 ci reqemi yaz " )
+x=int(x)
+y=int(y)
+seçim=input("(toplamaq,çıxmaq,vurmaq,bölmək) arasında seçim et " )
+if seçim=="toplamaq":
+	topla(x,y)
+
+if seçim=="çıxmaq":
+	çıx(x,y)
+	
+if seçim=="bölmək":
+	böl(x,y)
+	
+if seçim=="vurmaq":
+	vur(x,y)
+	
