@@ -1,0 +1,165 @@
+import sys    
+import pygame
+pygame.init()
+
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+WIDTH, HEIGHT = screen.get_size()
+clock = pygame.time.Clock()
+z = 15
+t = 25
+l = 5
+win = False
+
+
+SKY_BLUE    = (135, 206, 235)  
+GRASS_GREEN = (34, 139, 34)    
+BLACK       = (0, 0, 0)        
+RED         = (255, 0, 0)
+GOLD_YELLOW = (255, 215, 0)    
+BROWN       = (139, 69, 19)
+
+faoz = HEIGHT - (HEIGHT * 0.20)
+faoz2 = HEIGHT - (HEIGHT * 0.80)
+
+player = pygame.Rect(100, HEIGHT - 400, 40, 40)
+ground = pygame.Rect(0, faoz, WIDTH, faoz2)
+
+left_button = pygame.Rect(50, faoz + 20, 200, 100)
+right_button = pygame.Rect(300, faoz + 20, 200, 100)
+jump_button = pygame.Rect(ground.right - 250, faoz + 20, 120, 100)
+
+
+blocks = [
+    pygame.Rect(600, ground.top - 50, 50, 50),
+    pygame.Rect(700, ground.top - 150, 50, 50),
+    pygame.Rect(800, ground.top - 250, 50, 50),
+    pygame.Rect(900, ground.top - 350, 100, 50),
+    pygame.Rect(1100, ground.top - 450, 200, 50)
+]
+
+
+finish = pygame.Rect(1200, blocks[4].top - 70, 60, 70)
+
+def çek_p2(reng, x, y, x2, y2, x3, y3):
+    pygame.draw.polygon(screen, reng, ([(x, y), (x2, y2), (x3, y3)]))
+	
+def çek_r(reng, x, y, en, hündürlük):
+    pygame.draw.rect(screen, reng, (x, y, en, hündürlük))
+
+jump_power = -22	
+vel = 0
+gravity = 2
+speed_r = 10
+speed_l = 10
+jump = True
+
+running = True
+while running:
+    screen.fill(SKY_BLUE)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    if player.colliderect(finish):
+        win = True
+
+    player.y = player.y + vel
+    vel = vel + gravity
+
+    if player.bottom >= ground.top:
+        player.bottom = ground.top
+        jump = False
+        vel = 0
+
+  
+    for b in blocks:
+        if player.colliderect(b):
+            if vel > 0:  
+                player.bottom = b.top
+                vel = 0
+                jump = False
+            elif vel < 0:  
+                player.top = b.bottom
+                vel = 10
+
+    
+    if pygame.mouse.get_pressed()[0]:
+        mouse_pos = pygame.mouse.get_pos()
+        
+        
+        if left_button.collidepoint(mouse_pos):
+            player.x -= speed_l
+            z, l, t = 10, 0, 20
+          
+            for b in blocks:
+                if player.colliderect(b):
+                    player.left = b.right
+
+        
+        if right_button.collidepoint(mouse_pos):
+            player.x += speed_r		
+            z, l, t = 15, 5, 25
+           
+            for b in blocks:
+                if player.colliderect(b):
+                    player.right = b.left
+			
+        if jump_button.collidepoint(mouse_pos):
+            if not jump:
+                jump = True
+                vel = jump_power
+
+    clock.tick(60)
+    if player.x < 0:
+        player.x = 0
+
+   
+    pygame.draw.rect(screen, GRASS_GREEN, ground)
+    pygame.draw.rect(screen, GRASS_GREEN, left_button)
+    pygame.draw.rect(screen, GRASS_GREEN, right_button)
+    pygame.draw.rect(screen, GRASS_GREEN, jump_button)
+
+   
+    çek_r(BLACK, player.left, player.top + 10, 40, 20)
+    çek_r(BLACK, player.left + z, player.top, 15, 10)
+    çek_r(BLACK, player.left + l, player.bottom - 10, 15, 10)
+    çek_r(BLACK, player.left + t, player.bottom - 10, 15, 10)
+
+    
+    çek_p2(RED, left_button.left, left_button.centery, left_button.right, left_button.top, left_button.right, left_button.bottom)
+    çek_p2(RED, right_button.right, right_button.centery, right_button.left, right_button.top, right_button.left, right_button.bottom)
+    çek_p2(RED, jump_button.centerx, jump_button.top, jump_button.left, jump_button.bottom, jump_button.right, jump_button.bottom)
+
+    
+    for b in blocks:
+        pygame.draw.rect(screen, GRASS_GREEN, b)
+
+    
+    pygame.draw.rect(screen, GOLD_YELLOW, finish)
+    pygame.draw.rect(screen, BROWN, finish, 10)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    pygame.display.flip()
+
+pygame.quit()
+sys.exit()
